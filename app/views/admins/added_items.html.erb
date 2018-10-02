@@ -1,0 +1,99 @@
+
+
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+ <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.3.1/css/all.css" integrity="sha384-mzrmE5qonljUremFsqc01SB46JvROS7bZs3IO2EmfFsd15uHvIt+Y8vEf7N7fWAU" crossorigin="anonymous">
+<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+
+
+
+
+
+
+
+<nav class="navbar navbar-inverse">
+  <div class="container-fluid">
+    <div class="navbar-header">
+      <a class="navbar-brand" href="/admins/home">Welcome <%=@admin.name%></a>
+    </div>
+    <ul class="nav navbar-nav">
+    <li>
+    <%= link_to 'Add Found Item details', {:controller => 'found_items', :action => 'new'} %> 
+    <li>
+    <%= link_to 'See Found Items', {:controller => 'admins', :action => 'added_items'} %> 
+    </li>
+    <li>
+    <%= link_to 'See Matched Items', {:controller => 'admins', :action => 'show_match'} %> 
+   </li>
+    <li>
+    <%= link_to 'Return Items / See Notified users', {:controller => 'admins', :action => 'return_item'} %>
+    </li>
+   <li>
+  <li class="" style="position: relative; top: 5px;">
+    <button class="w3-button w3-red ">
+    <%= link_to 'Logout', {:controller => 'admins', :action => 'logout'}, :method => 'post' %> 
+    </button>
+     </li>
+   </ul>
+  </div>
+</nav>
+
+<br>
+
+<div class="text-center">
+<h3> Found Items Details </h3>
+    
+</div>
+<br>
+
+<%= form_tag controller: "admins", action: "added_items", method: "post" do %>
+<div class="input-group">
+  <%= text_field_tag :search , params[:search] ,class:"form-control", placeholder: "Search" %>
+ <div class="input-group-btn">
+  
+  <%= submit_tag "Search" , class: "btn btn-info"  %>
+  
+     </div>
+    </div>
+<% end %>
+<br>
+<br>
+
+
+<table class="w3-table w3-card-4 table table-dark w3-hoverable" style="width:100%">
+    <thead>    
+    <tr class="info">
+        <th>Sr. No.</th>
+        <th>Item Type</th>
+        <th>Color</th> 
+        <th>Brand</th>
+        <th>Status</th>
+        <th>Department</th>
+        <th>Locker Number</th>
+        <th>Added Date</th>
+    </tr>
+</thead>
+    
+    <% @added_items.each_with_index do |item,i| %>
+    <tr>
+        <td> <%= (i+1) %> </td>
+        <td> <%= item.item_type %> </td>
+        <td> <%= item.color %> </td>
+        <td> <%= item.brand %> </td>
+        <td> 
+            <% if(item.status == '-1') %>
+                <%= 'No match' %>
+            <% elsif(item.status == '0') %>
+                <%= 'Match found' %>
+            <% elsif(item.status == '1') %>
+                <%= 'Returned' %>
+            <% end %>    
+        </td>
+        <td> <%= item.storage_loc %> </td>
+        <td> <%= item.locker_id %> </td>
+        <td> <%= item.created_at.strftime("%d/%m/%Y") %> </td>
+    </tr>
+    <% end %>
+
+</table>

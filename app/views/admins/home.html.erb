@@ -1,0 +1,116 @@
+
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+ <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.3.1/css/all.css" integrity="sha384-mzrmE5qonljUremFsqc01SB46JvROS7bZs3IO2EmfFsd15uHvIt+Y8vEf7N7fWAU" crossorigin="anonymous">
+<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+
+
+
+
+
+<nav class="navbar navbar-inverse">
+  <div class="container-fluid">
+    <div class="navbar-header">
+      <a class="navbar-brand" href="/admins/home">Welcome <%=@admin.name %></a>
+    </div>
+    <ul class="nav navbar-nav">
+    <li>
+    <%= link_to 'Add Found Item details', {:controller => 'found_items', :action => 'new'} %> 
+    <li>
+    <%= link_to 'See Found Items', {:controller => 'admins', :action => 'added_items'} %> 
+    </li>
+    <li>
+    <%= link_to 'See Matched Items', {:controller => 'admins', :action => 'show_match'} %> 
+   </li>
+    <li>
+    <%= link_to 'Return Items / See Notified users', {:controller => 'admins', :action => 'return_item'} %>
+    </li>
+   <li class="" style="position: relative; top: 5px;">
+    <button class="w3-button w3-red ">
+    <%= link_to 'Logout', {:controller => 'admins', :action => 'logout'}, :method => 'post' %> 
+    </button>
+    
+    </li>
+   </ul>
+  </div>
+</nav>
+
+
+ <br/>
+<h3> Pending Requests </h3>
+ <br/>
+
+<table class="w3-table w3-card-4 table table-dark " style="width:100%">
+    <thead>    
+    <tr  class="danger" >
+        <th>Sr. No.</th>
+        <th>Item Type</th>
+        <th>Color</th> 
+        <th>Brand</th>
+        <th>Lost Date</th>
+        <th>Report Date</th>
+        <th>Approve</th>
+        <th>Reject</th>
+    </tr>
+</thead>
+    
+    <% @pending_requests.each_with_index do |item,i| %>
+    <tr>
+        <td> <%= (i+1) %> </td>
+        <td> <%= item.item_type %> </td>
+        <td> <%= item.color %> </td>
+        <td> <%= item.brand %> </td>
+        <td> <%= item.date.strftime("%d/%m/%Y") %> </td>
+        <td> <%= item.created_at.strftime("%d/%m/%Y") %> </td>
+        <td>  <button class="w3-button w3-green"><%= link_to 'Approve', {:controller => 'admins', :action => 'approve', :request_id => item.id} %></button> </td>
+        <td><button class="w3-button w3-red"> <%= link_to 'Reject', {:controller => 'admins', :action => 'reject', :request_id => item.id} %></button> </td>
+    </tr>
+    <% end %>
+
+</table>
+
+
+
+<br/> <br/> <br/>
+<h3> Processed Requests </h3>
+ <br/>
+
+<table class="w3-table w3-card-4 table table-dark  w3-hoverable" style="width:100%">
+    <thead>
+    <tr class="success">
+        <th>Sr. No.</th>
+        <th>Item Type</th>
+        <th>Color</th> 
+        <th>Brand</th>
+        <th>Status</th>
+        <th>Lost Date</th>
+        <th>Report Date</th>
+    </tr>
+</thead>
+    <% @processed_requests.each_with_index do |item,i| %>
+    <tr>
+        <td> <%= (i+1) %> </td>
+        <td> <%= item.item_type %> </td>
+        <td> <%= item.color %> </td>
+        <td> <%= item.brand %> </td>
+        <td> 
+            <% status = item.status %>
+            <% if(status == 'approved') %>
+                <%='Approved'%>
+            <% elsif(status == 'rejected')%>
+                <%='Rejected'%>
+            <% elsif(status == 'match_found') %>
+                <%='Match Found'%>
+            <% elsif(status == 'closed') %>
+                <%= 'Closed' %>
+            <%end%> 
+        
+        </td>
+        <td> <%= item.date.strftime("%d/%m/%Y") %> </td>
+        <td> <%= item.created_at.strftime("%d/%m/%Y") %> </td>
+    </tr>
+    <% end %>
+
+</table>
+

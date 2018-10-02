@@ -1,0 +1,106 @@
+
+
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+ <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.3.1/css/all.css" integrity="sha384-mzrmE5qonljUremFsqc01SB46JvROS7bZs3IO2EmfFsd15uHvIt+Y8vEf7N7fWAU" crossorigin="anonymous">
+<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+
+
+
+
+<nav class="navbar navbar-inverse">
+  <div class="container-fluid">
+    <div class="navbar-header">
+      <a class="navbar-brand" href="/admins/home">Welcome <%=@admin.name%></a>
+    </div>
+    <ul class="nav navbar-nav">
+    <li>
+    <%= link_to 'Add Found Item details', {:controller => 'found_items', :action => 'new'} %> 
+    <li>
+    <%= link_to 'See Found Items', {:controller => 'admins', :action => 'added_items'} %> 
+    </li>
+    <li>
+    <%= link_to 'See Matched Items', {:controller => 'admins', :action => 'show_match'} %> 
+   </li>
+    <li>
+    <%= link_to 'Return Items / See Notified users', {:controller => 'admins', :action => 'return_item'} %>
+    </li>
+   <li>
+   <li class="" style="position: relative; top: 5px;">
+    <button class="w3-button w3-red ">
+    <%= link_to 'Logout', {:controller => 'admins', :action => 'logout'}, :method => 'post' %> 
+    </button>
+    </li>
+   </ul>
+  </div>
+</nav>
+
+
+<div class="text-center">
+<h2> Add Found Item Details</h2>
+    
+</div>    
+
+<div class="form">
+
+<% if(flash[:msg]) %>
+  <div class="alert alert-success">
+
+  <%= flash[:msg] %>
+</div>
+<% end %>
+
+
+
+<% found_item = @found_item %>
+
+<%= form_with(url:{controller:'found_items', action:'add_item'}, class: "login-form", model: found_item, local: true) do |form| %>
+    <% if @found_item.errors.any? %>
+
+<!--         <h2><%= pluralize(@found_item.errors.count, "error") %> prohibited this found_item from being saved:</h2>
+ -->
+<div class="alert alert-danger">
+       <div class="text-center"><h3> <strong>Error Details</strong> </h3></div>
+     
+        <ul class="list-group">
+        <% @found_item.errors.full_messages.each do |message| %>
+           <li class="list-group-item list-group-item-danger"><%= message %></li>
+         <% end %>
+        </ul>
+    </div>
+    <% end %>
+
+    <div class="field">
+        <%= form.text_field :item_type , placeholder: "Item Type" %>
+    </div>
+
+    <div class="field">
+        <%= form.text_field :color , placeholder: "Color"%>
+    </div>
+
+    <div class="field">
+        <%= form.text_field :brand , placeholder: "Brand"%>
+    </div>
+
+    <div class="field">
+        <!-- <%= form.label :status %> -->
+        <%= form.hidden_field :status, :value => '-1' %>
+    </div>
+
+    <div class="field">
+        <%= form.label :storage_loc, 'Department Location' %>
+        <% obj = {"East Campus" => "East Campus", "West Campus"=>"West Campus"} %>
+        <%= form.select :storage_loc, obj %>
+    </div>
+
+    <div class="field">
+        <%= form.text_field :locker_id, placeholder: "Locker Id" %>
+    </div>
+
+    <div class="actions">
+        <%= form.submit "Submit" , class:"submit3 btn btn-secondary" %>
+    </div>
+<% end %>
+
+</div>

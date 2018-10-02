@@ -1,0 +1,159 @@
+
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+ <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.3.1/css/all.css" integrity="sha384-mzrmE5qonljUremFsqc01SB46JvROS7bZs3IO2EmfFsd15uHvIt+Y8vEf7N7fWAU" crossorigin="anonymous">
+<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+
+
+
+
+<nav class="navbar navbar-inverse">
+  <div class="container-fluid">
+    <div class="navbar-header">
+      <a class="navbar-brand" href="/users/home">Welcome <%=@user.name %></a>
+    </div>
+    <ul class="nav navbar-nav">
+      <li>
+        <%= link_to 'Report a Lost Item', :controller => 'lost_requests', :action => 'new' %> 
+      <li>
+       <%= link_to 'See Found List', {:controller => 'users', :action => 'found_list'} %> 
+   </li>
+   <li class="" style="position: relative; top: 5px;">
+    <button class="w3-button w3-red ">
+    <%= link_to 'Logout', {:controller => 'users', :action => 'logout'}, :method => 'post' %>
+   </button>
+    </li>
+   </ul>
+  </div>
+</nav>
+
+<br>
+
+
+<%= form_tag controller: "users", action: "home", method: "post" do %>
+<div class="input-group">
+  <%= text_field_tag :search , params[:search] ,class:"form-control", placeholder: "Search Lost Items" %>
+ <div class="input-group-btn">
+  
+  <%= submit_tag "Search" , class: "btn btn-info"  %>
+  
+     </div>
+    </div>
+<% end %>
+
+<br>
+<br>
+
+<div class="text-center">
+<h2> Lost Items </h2>
+</div>
+<br>
+
+<br/>
+<table class="w3-table w3-card-4 table table-dark  w3-hoverable " style="width:100%">
+    <thead>
+        <tr class="danger">
+        <th>Sr. No.</th>
+        <th>Item Type</th>
+        <th>Color</th> 
+        <th>Brand</th>
+        <th>Status</th>
+        <th>Lost Date</th>
+        <th>Report Date</th>
+    </tr>
+</thead>
+    
+     <% @lostitem= @lost_requests.where("status= 'approved' OR status='pending'  or status='rejected'")%>
+   
+    <% @lostitem.each_with_index do |item,i| %>
+   <tr>
+        <td> <%= (i+1) %> </td>
+        <td> <%= item.item_type %> </td>
+        <td> <%= item.color %> </td>
+        <td> <%= item.brand %> </td>
+        <td>
+           <% status = item.status %>
+            <% if(status == 'approved') %>
+                <%='Approved'%>
+            <% elsif(status == 'pending')%>
+                <%='Pending'%>
+            <% elsif(status == 'rejected')%>
+                <%='Rejected'%>
+            <% elsif(status == 'match_found') %>
+                <%='Match Found'%>
+            <% elsif(status == 'closed') %>
+                <%= 'Closed' %>
+            <%end%> 
+        </td>
+        <td> <%= item.date %> </td>
+        <td> <%= item.created_at %> </td>
+    </tr>
+    <% end %>
+
+</table>
+
+
+
+
+ <% @lostitem= @lost_requests1.where("status= 'match_found'  or status='closed' ")%>
+
+<br>
+<br>
+   
+
+<%if @lostitem[0]%>
+
+
+<div class="text-center">
+<h2> Matched Lost Items </h2>
+</div>
+<br>
+
+<table class="w3-table w3-card-4 table table-dark  w3-hoverable" style="width:100%">
+    <thead>
+        <tr class="danger">
+        <th>Sr. No.</th>
+        <th>Item Type</th>
+        <th>Color</th> 
+        <th>Brand</th>
+        <th>Status</th>
+        <th>Department Location</th>
+        <th>Lost Date</th>
+        <th>Report Date</th>
+    </tr>
+</thead>
+    
+
+   
+   
+    <% @lostitem.each_with_index do |item,i| %>
+   
+    <tr>
+        <td> <%= (i+1) %> </td>
+        <td> <%= item.item_type %> </td>
+        <td> <%= item.color %> </td>
+        <td> <%= item.brand %> </td>
+        <td>
+           <% status = item.status %>
+            <% if(status == 'approved') %>
+                <%='Approved'%>
+            <% elsif(status == 'pending')%>
+                <%='Pending'%>
+            <% elsif(status == 'rejected')%>
+                <%='Rejected'%>
+            <% elsif(status == 'match_found') %>
+                <%='Match Found'%>
+            <% elsif(status == 'closed') %>
+                <%= 'Closed' %>
+            <%end%> 
+        </td>
+        <td><%= FoundItem.find(item.found_code).storage_loc%></td>
+        <td> <%= item.date %> </td>
+        <td> <%= item.created_at %> </td>
+    </tr>
+    <% end %>
+
+</table>
+
+<%end%>

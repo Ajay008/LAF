@@ -1,0 +1,105 @@
+
+
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+ <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.3.1/css/all.css" integrity="sha384-mzrmE5qonljUremFsqc01SB46JvROS7bZs3IO2EmfFsd15uHvIt+Y8vEf7N7fWAU" crossorigin="anonymous">
+
+<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+
+
+
+<nav class="navbar navbar-inverse">
+  <div class="container-fluid">
+    <div class="navbar-header">
+      <a class="navbar-brand" href="/users/home">Welcome <%=@user.name%></a>
+    </div>
+    <ul class="nav navbar-nav">
+      <li>
+        <%= link_to 'Report a Lost Item', :controller => 'lost_requests', :action => 'new' %> 
+      <li>
+       <%= link_to 'See Found List', {:controller => 'users', :action => 'found_list'} %> 
+   </li>
+  <li class="" style="position: relative; top: 5px;">
+    <button class="w3-button w3-red ">
+    <%= link_to 'Logout', {:controller => 'users', :action => 'logout'}, :method => 'post' %>
+   </button>
+    </li>
+    </ul>
+  </div>
+</nav>
+
+
+<div class="form">
+
+<h2> Place Lost Request </h2>
+<br>
+
+
+<% if(flash[:msg]) %>
+  <div class="alert alert-success">
+  <%= flash[:msg] %>
+  <%= link_to 'View Details', {:controller => 'users', :action => 'home'} %>
+</div>    
+<% end %>
+
+
+<% lost_request = @lost_request %>
+
+
+
+<%= form_with(url:{controller:'lost_requests', action:'place_request'}, class: "login-form", model: lost_request, local: true) do |form| %>
+    
+    <% if @lost_request.errors.any? %>
+        <!-- <h2><%= pluralize(@lost_request.errors.count, "error") %> prohibited this lost_request from being saved:</h2>
+ --><div class="alert alert-danger">
+       <div class="text-center"><h3> <strong>Error Details</strong> </h3></div>
+     
+        <ul class="list-group">
+        <% @lost_request.errors.full_messages.each do |message| %>
+            <li class="list-group-item list-group-item-danger"><%= message %></li>
+        </ul>
+        <% end %>
+   
+        </div>
+    <% end %>
+
+    
+    <div class="field">
+        <%= form.text_field :item_type , placeholder: "Item Type" %>
+    </div>
+
+    <div class="field">
+        <%= form.text_field :color , placeholder: "Color" %>
+    </div>
+
+    <div class="field">
+        <%= form.text_field :brand , placeholder: "Brand" %>
+    </div>
+
+    <div class="field">
+        <%= form.label :date, "Lost Date" %>
+        <%= form.date_select :date %>
+    </div>
+
+    <div class="field">
+        <!-- <%= form.label :status %> -->
+        <%= form.hidden_field :status, :value => 'pending' %>
+    </div>
+
+    <div class="field">
+        <!-- <%= form.label :user_id %> -->
+        <%= form.hidden_field :user_id, :value => session[:user_id] %>
+    </div>
+
+    <div class="field">
+        <!-- <%= form.label :found_code %> -->
+        <%= form.hidden_field :found_code, :value => -1 %>
+    </div>
+
+
+    <div class="actions">
+        <%= form.submit "Submit" , class:"submit3 btn btn-secondary"%>
+    </div>
+<% end %>
+</div>

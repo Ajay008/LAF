@@ -1,0 +1,19 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  item_type: MyString
+  color: MyString
+  brand: MyString
+  date: 2018-09-23
+  status: MyString
+  user_id: MyString
+  found_code: 1
+
+two:
+  item_type: MyString
+  color: MyString
+  brand: MyString
+  date: 2018-09-23
+  status: MyString
+  user_id: MyString
+  found_code: 1

@@ -1,0 +1,2 @@
+module LostRequestsHelper
+end

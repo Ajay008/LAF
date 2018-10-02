@@ -1,0 +1,78 @@
+
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+ <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.3.1/css/all.css" integrity="sha384-mzrmE5qonljUremFsqc01SB46JvROS7bZs3IO2EmfFsd15uHvIt+Y8vEf7N7fWAU" crossorigin="anonymous">
+
+<nav class="navbar navbar-inverse">
+  <div class="container-fluid">
+    <div class="navbar-header">
+      <a class="navbar-brand" href="/">Lost & Found</a>
+    </div>
+    <ul class="nav navbar-nav">
+      <li class="active">
+      	<a href="/">Home</a></li>
+      <li>
+      	<%= link_to 'SignUp', :controller => 'users', :action => 'new' %> 
+      <li>
+	     <%= link_to 'User Login', {:controller => 'users', :action => 'login'} %> 
+	 </li>
+	 <li>
+	 	
+		<%= link_to 'Admin Login', {:controller => 'admins', :action => 'login'} %>
+	 </li>
+    </ul>
+   </div>
+</nav>
+
+
+
+
+<br>
+
+<div class="text-center">
+<h1>User Login</h1>
+    
+</div>
+<br>
+
+
+ <div class="form">
+
+<% if(flash[:msg]) %>
+<div class="alert alert-danger">
+  <%= flash[:msg] %>
+ </div>
+<% end %>
+
+
+<%= form_tag controller: "users", action: "home", class: "login-form" , method: "post"  do %>
+  
+  <div>
+  	 <i class="eicon1 fas fa-at fa-3x"></i>
+  <%= text_field_tag :user_id , nil ,  placeholder: 'User Email' %>
+  	
+  </div>
+  
+    <br/>
+
+   <div>
+   			
+    	 <i class="picon1 fas fa-key fa-3x"></i>
+ 															
+  <%= password_field_tag :password , nil, placeholder: 'Password'%>
+ 	
+   </div>
+  
+    <br/> <br/>
+
+  <%= submit_tag "Login" , class:"submit1 btn btn-secondary" %>
+<% end %>
+
+
+
+
+
+</div>
+
+

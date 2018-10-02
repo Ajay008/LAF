@@ -1,0 +1,85 @@
+
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+ <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+
+
+
+<nav class="navbar navbar-inverse">
+  <div class="container-fluid">
+    <div class="navbar-header">
+      <a class="navbar-brand" href="/">Lost & Found</a>
+    </div>
+    <ul class="nav navbar-nav">
+      <li class="active">
+        <a href="/">Home</a></li>
+      <li>
+        <%= link_to 'SignUp', :controller => 'users', :action => 'new' %> 
+      <li>
+         <%= link_to 'User Login', {:controller => 'users', :action => 'login'} %> 
+     </li>
+     <li>
+        
+        <%= link_to 'Admin Login', {:controller => 'admins', :action => 'login'} %>
+     </li>
+    </ul>
+  </div>
+</nav>
+
+<br>
+
+<div class="text-center">
+<h1>Register</h1>
+    
+</div>
+<br>
+<% user = @user %>
+
+<div class="form">
+
+
+
+<%= form_with(url:{controller:'users', action:'add_user'},  class: "login-form", model: user, local: true) do |form| %>
+    
+    <% if @user.errors.any? %>
+       <!--  <div id="error_explanation">
+        <h2><%= pluralize(@user.errors.count, "error") %> prohibited this user from being saved:</h2>
+ 
+ -->
+ <div class="alert alert-danger">
+    <div class="text-center"><h3> <strong>Error Details</strong> </h3></div>
+        <ul class="list-group">
+        <% @user.errors.full_messages.each do |message| %>
+            <li class="list-group-item list-group-item-danger"><%= message %></li>
+        <% end %>
+        </ul>
+</div>    
+
+    <% end %>
+
+    <div class="field">
+        <%= form.text_field :user_id ,  placeholder: 'Email' %>
+    </div>
+
+    <div class="field">
+        <%= form.password_field :password , placeholder: 'Password' %>
+    </div>
+
+    <div class="field">
+        <%= form.password_field :password_confirmation, placeholder: 'Password Confirmation' %>
+    </div>
+
+    <div class="field">
+        <%= form.text_field :name, placeholder: 'Name' %>
+    </div>
+
+    <div class="field">
+        <%= form.text_field :contact, placeholder: 'Contact' %>
+    </div>
+
+    <div class="actions">
+        <%= form.submit 'Submit' , class:"submit2 btn btn-success" %>
+    </div>
+
+<% end %>
+</div>

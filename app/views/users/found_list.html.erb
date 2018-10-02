@@ -1,0 +1,71 @@
+
+
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+ <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.3.1/css/all.css" integrity="sha384-mzrmE5qonljUremFsqc01SB46JvROS7bZs3IO2EmfFsd15uHvIt+Y8vEf7N7fWAU" crossorigin="anonymous">
+<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+
+
+<nav class="navbar navbar-inverse">
+  <div class="container-fluid">
+    <div class="navbar-header">
+      <a class="navbar-brand" href="/users/home">Welcome <%=@user.name%> </a>
+    </div>
+    <ul class="nav navbar-nav">
+      <li>
+        <%= link_to 'Report a Lost Item', :controller => 'lost_requests', :action => 'new' %> 
+      <li>
+       <%= link_to 'See Found List', {:controller => 'users', :action => 'found_list'} %> 
+   </li>
+  <li class="" style="position: relative; top: 5px;">
+    <button class="w3-button w3-red ">
+    <%= link_to 'Logout', {:controller => 'users', :action => 'logout'}, :method => 'post' %>
+   </button>
+    </li>
+    </ul>
+  </div>
+</nav>
+
+<h3> Found Items List </h3>
+ <br/>
+
+
+
+<%= form_tag controller: "users", action: "found_list", method: "post" do %>
+<div class="input-group">
+  <%= text_field_tag :search , params[:search] ,class:"form-control", placeholder: "Search" %>
+ <div class="input-group-btn">
+  
+  <%= submit_tag "Search" , class: "btn btn-info"  %>
+  
+     </div>
+    </div>
+<% end %>
+
+
+<br/> <br/> 
+
+
+<table class="w3-table w3-card-4 table w3-hoverable " style="width:100%">
+    <thead class="thead-dark">    
+    <tr class="success">
+        <th>Sr. No.</th>
+        <th>Item Type</th>
+        <th>Color</th> 
+        <th>Brand</th>
+        <th>Found Date</th>
+    </tr>
+</thead>
+    
+    <% @found_items.each_with_index do |item,i| %>
+    <tr>
+        <td> <%= (i+1) %> </td>
+        <td> <%= item.item_type %> </td>
+        <td> <%= item.color %> </td>
+        <td> <%= item.brand %> </td>
+        <td> <%= item.created_at.strftime("%d/%m/%Y") %> </td>
+    </tr>
+    <% end %>
+
+</table>
